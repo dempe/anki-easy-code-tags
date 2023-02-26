@@ -1,4 +1,4 @@
-# Easy Codeblocks for [Anki](https://apps.ankiweb.net/)
+# Easy Code Tags for [Anki](https://apps.ankiweb.net/)
 
 Convert backticks to HTML `<code>` tags in the Anki editor.
 
