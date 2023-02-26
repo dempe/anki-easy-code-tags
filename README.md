@@ -4,6 +4,10 @@ Convert backticks to HTML `<code>` tags in the Anki editor.
 
 This makes the Anki editor parse backticks as Markdown.
 
+Single backticks (\`x == 2\`) will be converted like so `<code>x == 2</code>`.
+
+Triple backticks (\`\`\`x == 2\`\`\`) will be coverted like so `<pre><code>x == 2</pre></code>`.
+
 **A few notes**:
 
 - The text in the editor is updated automatically when you...
