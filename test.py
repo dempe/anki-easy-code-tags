@@ -47,3 +47,6 @@ class BackTickUnitTests(unittest.TestCase):
         self.assertEqual(r'<pre><code>code block</code></pre> with <code>code</code>',
                          replace_all_backticks(r'```code block``` with `code`', None))
 
+    def test_mixed_back_ticks_and_code_tags(self):
+        self.assertEqual('<code>x == 2</code> mixed with <code>x == 4</code> backticks',
+                         replace_all_backticks('<code>x == 2</code> mixed with `x == 4` backticks', None))

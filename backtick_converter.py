@@ -25,6 +25,14 @@ def close_tags(html: str, open_tag: str, closed_tag: str, in_code_block: bool) -
     if pos == -1:  # find returns -1 if not found
         return html
     endpos = pos + len(open_tag)
+
+    # This is needed for strings with mixed ` and <code>
+    # If there already exists a complete codeblock,
+    # this prevents the algorithm from closing this already existing code block at the next code block's start.
+    closed_tag_pos = html.find(closed_tag)
+    if closed_tag_pos != -1 and closed_tag_pos <= pos:
+        in_code_block = False
+
     if in_code_block:
         return html[:pos] + closed_tag + close_tags(html[endpos:], open_tag, closed_tag, False)
     return html[:endpos] + close_tags(html[endpos:], open_tag, closed_tag, True)
