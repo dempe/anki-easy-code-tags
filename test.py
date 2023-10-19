@@ -1,7 +1,6 @@
 import unittest
 
-from backtick_converter import replace_single_back_ticks, replace_triple_back_ticks, cleanup_escaped_back_ticks, \
-    replace_all_backticks
+from backtick_converter import *
 
 
 class BackTickUnitTests(unittest.TestCase):
@@ -30,23 +29,45 @@ class BackTickUnitTests(unittest.TestCase):
     def test_handles_extraneous_triple_back_ticks(self):
         """Applying Occam's Razor here.
             If the user wants a literal back tick, they need to escape it."""
-        self.assertEqual("<pre><code>x == 2</code></pre> oops! <pre><code>",
-                         replace_triple_back_ticks("```x == 2``` oops! ```"))
+        expected = '<pre><code>x == 2</code></pre> oops! <pre><code>'
+        actual = replace_triple_back_ticks('```x == 2``` oops! ```')
+
+        self.assertEqual(expected, actual)
 
     def test_cleanup_escaped_back_ticks(self):
         self.assertEqual('`', cleanup_escaped_back_ticks(r'\`'))
         self.assertEqual(r'\\`', cleanup_escaped_back_ticks(r'\\`'))
 
     def test_all_together(self):
-        self.assertEqual(r'<code>x == 2</code> <pre><code>this is a code block</code></pre>',
-                         replace_all_backticks(r'`x == 2` ```this is a code block```', None))
-        self.assertEqual(r'<code>x == 2</code> ```this is a code block<pre><code>',
-                         replace_all_backticks(r'`x == 2` \```this is a code block```', None))
+        expected = r'<code>x == 2</code> <pre><code>this is a code block</code></pre>'
+        actual = replace_all_backticks(r'`x == 2` ```this is a code block```', None)
+        self.assertEqual(expected, actual)
+
+        expected = r'<code>x == 2</code> ```this is a code block<pre><code>'
+        actual = replace_all_backticks(r'`x == 2` \```this is a code block```', None)
+        self.assertEqual(expected, actual)
 
     def test_misc(self):
-        self.assertEqual(r'<pre><code>code block</code></pre> with <code>code</code>',
-                         replace_all_backticks(r'```code block``` with `code`', None))
+        expected = r'<pre><code>code block</code></pre> with <code>code</code>'
+        actual = replace_all_backticks(r'```code block``` with `code`', None)
+
+        self.assertEqual(expected, actual)
 
     def test_mixed_back_ticks_and_code_tags(self):
-        self.assertEqual('<code>x == 2</code> mixed with <code>x == 4</code> backticks',
-                         replace_all_backticks('<code>x == 2</code> mixed with `x == 4` backticks', None))
+        expected = '<code>x == 2</code> mixed with <code>x == 4</code> backticks'
+        actual = replace_all_backticks('<code>x == 2</code> mixed with `x == 4` backticks', None)
+
+        self.assertEqual(expected, actual)
+
+    def test_find_languages(self):
+        html = '<pre><code>python\ndef add()\n</pre></code><pre><code>php\necho "hi"</pre></code>'
+        expected = ['python', 'php']
+        self.assertEqual(expected, find_languages(html))
+
+    def test_replace_language_with_class(self):
+        html = '<pre><code>python\ndef add()\n</pre></code><pre><code>php\necho "hi"</pre></code>'
+        languages = ['python', 'php']
+        expected = '<pre><code class="language-python">def add()\n</pre></code><pre><code class="language-php">echo "hi"</pre></code>'
+        actual = replace_language_with_class(html, languages)
+
+        self.assertEqual(expected, actual)
