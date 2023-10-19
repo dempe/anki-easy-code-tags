@@ -13,7 +13,7 @@ CODE_TAG_REGEX = re.compile(r'(?<![\\`])`(?!`)')
 ESCAPED_BACK_TICK_REGEX = re.compile(r'(?<!\\)\\`')
 
 # Parse the language for each code block. Languages here: https://highlightjs.org/download
-CODE_BLOCK_LANG_REGEX = re.compile(r'<pre><code>([a-z0-9_-]+?)\n')
+CODE_BLOCK_LANG_REGEX = re.compile(r'<pre><code>([a-z0-9_-]+?)(\n|<br>)')
 
 
 def find_languages(html: str) -> List[str]:
