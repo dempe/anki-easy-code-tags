@@ -11,15 +11,23 @@ Triple backticks (\`\`\`x == 2\`\`\`) will be converted like so `<pre><code>x ==
 Append a newline-delimited, alphanumeric string to a triple backtick to add a class.
 
 ```
-   \`\`\`php
+   \```php
    echo "hi";
-   \`\`\`
+   \```
 ```
 
 (Note the newline after `php`!) This will be converted to:
 
 ```xml
    <pre><code class="language-php">echo "hi";</code></pre>
+```
+
+Also works with `<br>` instead of "raw" newline, since the Anki editor automatically inserts `<br>`
+
+```
+   \```php<br>
+   echo "hi";
+   \```
 ```
 
 Many popular JS-based syntax highlighters ([highlight.js](https://highlightjs.org/), [prismjs](https://prismjs.com/)) can automatically detect what language you're using, but sometimes you have to be explicit and specify the language yourself.
