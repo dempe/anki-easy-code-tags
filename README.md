@@ -31,6 +31,20 @@ Also works with `<br>` instead of "raw" newline, since the Anki editor automatic
 
 Many popular JS-based syntax highlighters ([highlight.js](https://highlightjs.org/), [prismjs](https://prismjs.com/)) can automatically detect what language you're using, but sometimes you have to be explicit and specify the language yourself.
 
+FWIW, to install a syntax highlighter: 
+
+1. Copy the downloaded JS code into your `collection.media` directory (for example, `highlight.min.js`)
+2. Prefix the JS library name with `_` (for example, `highlight.min.js` -> `_highlight.min.js`)
+   1. This is so Anki doesn't try to delete it since it's not being referenced by any field
+3. Copy an associated CSS file for styling and also prefix it with an `_` (e.g., `_github-dark.min.css`)
+4. Edit your cards to call the JS library and load the CSS like so:
+
+```xml
+<link rel="stylesheet" href="_github-dark.min.css">
+<script src="_highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+```
+
 ## A few notes
 
 - The text in the editor is updated automatically when you...
