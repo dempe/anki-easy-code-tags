@@ -27,7 +27,7 @@ def find_languages(html: str) -> List[str]:
 def replace_language_with_class(html: str, langauges: List[str]) -> str:
     """Given some HTML and a list of languages, adds an HTML class, "language-*", to each <pre><code>"""
     for language in langauges:
-        regex = re.compile('<pre><code>' + language + '\n')
+        regex = re.compile('<pre><code>' + language + '(\n|<br>)')
         replacement = f"<pre><code class=\"language-{language}\">"
         html = regex.sub(replacement, html)
     return html

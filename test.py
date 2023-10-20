@@ -69,10 +69,23 @@ class BackTickUnitTests(unittest.TestCase):
         expected = ['python', 'php']
         self.assertEqual(expected, find_languages(html))
 
+    def test_find_languages_br_delimited2(self):
+        html = r'<pre><code>php<br>echo "hello world";<br></code></pre>'
+        expected = ['php']
+        self.assertEqual(expected, find_languages(html))
+
     def test_replace_language_with_class(self):
         html = '<pre><code>python\ndef add()\n</pre></code><pre><code>php\necho "hi"</pre></code>'
         languages = ['python', 'php']
         expected = '<pre><code class="language-python">def add()\n</pre></code><pre><code class="language-php">echo "hi"</pre></code>'
+        actual = replace_language_with_class(html, languages)
+
+        self.assertEqual(expected, actual)
+
+    def test_replace_language_with_class2(self):
+        html = r'<pre><code>php<br>echo "hello world";<br></code></pre>'
+        languages = ['php']
+        expected = '<pre><code class="language-php">echo "hello world";<br></code></pre>'
         actual = replace_language_with_class(html, languages)
 
         self.assertEqual(expected, actual)
